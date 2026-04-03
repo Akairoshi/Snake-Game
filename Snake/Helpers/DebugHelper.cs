@@ -11,12 +11,6 @@ namespace Snake.Helpers
                 .GetProperty(nameof(player.Score))!
                 .SetValue(player, score);
         }
-        public static void SetSpeed(Player player, int speed)
-        {
-            typeof(Player)
-                .GetProperty(nameof(player.Speed))!
-                .SetValue(player, speed);
-        }
     }
 }
 #endif

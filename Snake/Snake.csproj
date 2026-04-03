@@ -9,4 +9,18 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Sounds\1.wav" />
+    <None Remove="Sounds\2.wav" />
+    <None Remove="Sounds\3.wav" />
+    <None Remove="Sounds\death.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Sounds\1.wav" />
+    <Resource Include="Sounds\2.wav" />
+    <Resource Include="Sounds\3.wav" />
+    <Resource Include="Sounds\death.wav" />
+  </ItemGroup>
+
 </Project>

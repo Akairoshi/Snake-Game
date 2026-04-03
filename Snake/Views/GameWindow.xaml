@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake.Views"
         mc:Ignorable="d"
-        Title="{Binding Title, Mode=OneWay}" Height="800" Width="800" ResizeMode="NoResize">
+        Title="{Binding Title, Mode=OneWay}" MinHeight="780" MinWidth="600" WindowStartupLocation="CenterScreen" >
     <Window.InputBindings>
         <KeyBinding Key="W" Command="{Binding MoveCommand}" CommandParameter="Up"/>
         <KeyBinding Key="A" Command="{Binding MoveCommand}" CommandParameter="Left"/>
@@ -16,6 +16,8 @@
         <KeyBinding Key="Left" Command="{Binding MoveCommand}" CommandParameter="Left"/>
         <KeyBinding Key="Down" Command="{Binding MoveCommand}" CommandParameter="Down"/>
         <KeyBinding Key="Right" Command="{Binding MoveCommand}" CommandParameter="Right"/>
+
+        <KeyBinding Key="R" Command="{Binding RestartCommand}"/>
     </Window.InputBindings>
     <Grid Margin="15,15,15,21">
         <Grid.RowDefinitions>
@@ -26,7 +28,9 @@
                 <Run Text="{Binding MoveDirection, Mode=OneWay}"/>
             </TextBlock>
             <Canvas x:Name="GameCanvas" Height="500" Width="500" Loaded="GameCanvas_Loaded" Margin="0,30,0,60" Background="#FFD0D0D0">
-                <ItemsControl ItemsSource="{Binding Food}">
+                <ItemsControl ItemsSource="{Binding Foods}"
+                      Width="{Binding ActualWidth, ElementName=GameCanvas}"
+                      Height="{Binding ActualHeight, ElementName=GameCanvas}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
@@ -40,7 +44,31 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Rectangle Width="10" Height="10" Fill="Blue"/>
+                            <Rectangle Width="{Binding DataContext.CellSize, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                   Height="{Binding DataContext.CellSize, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                   Fill="Red" Style="{StaticResource FadeInRect}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding Snake}"
+                      Width="{Binding ActualWidth, ElementName=GameCanvas}"
+                      Height="{Binding ActualHeight, ElementName=GameCanvas}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding CanvasX}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding CanvasY}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="{Binding DataContext.CellSize, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                   Height="{Binding DataContext.CellSize, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                   Fill="Green"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
