@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Snake.Views
 {
-    public partial class GameWindow : Window    
+    public partial class GameWindow : Window
     {
         private readonly GameViewModel _vm;
         public GameWindow(GameViewModel vm)
@@ -11,6 +11,10 @@ namespace Snake.Views
             InitializeComponent();
             _vm = vm;
             DataContext = _vm;
+        }
+        public void GameCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            _vm.SetGameCanvasSize(GameCanvas.ActualWidth, GameCanvas.ActualHeight);
         }
     }
 }

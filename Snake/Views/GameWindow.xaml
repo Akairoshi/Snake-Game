@@ -5,10 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake.Views"
         mc:Ignorable="d"
-        Title="GameWindow" Height="800" Width="800">
-    <Grid Background="#FF151515">
-        <Canvas Margin="66,32,66,96" Background="#FF2F2F2F"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,710,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" FontSize="36" Text="{Binding ScoreView, StringFormat='Score: {0}'}"/>
+        Title="{Binding Title, Mode=OneWay}" Height="800" Width="800" ResizeMode="NoResize">
+    <Window.InputBindings>
+        <KeyBinding Key="W" Command="{Binding MoveCommand}" CommandParameter="Up"/>
+        <KeyBinding Key="A" Command="{Binding MoveCommand}" CommandParameter="Left"/>
+        <KeyBinding Key="S" Command="{Binding MoveCommand}" CommandParameter="Down"/>
+        <KeyBinding Key="D" Command="{Binding MoveCommand}" CommandParameter="Right"/>
+
+        <KeyBinding Key="Up" Command="{Binding MoveCommand}" CommandParameter="Up"/>
+        <KeyBinding Key="Left" Command="{Binding MoveCommand}" CommandParameter="Left"/>
+        <KeyBinding Key="Down" Command="{Binding MoveCommand}" CommandParameter="Down"/>
+        <KeyBinding Key="Right" Command="{Binding MoveCommand}" CommandParameter="Right"/>
+    </Window.InputBindings>
+    <Grid Margin="15,15,15,21">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap" FontSize="25" Margin="0,30,0,0" HorizontalAlignment="Center">
+                <Run Text="{Binding MoveDirection, Mode=OneWay}"/>
+            </TextBlock>
+            <Canvas x:Name="GameCanvas" Height="500" Width="500" Loaded="GameCanvas_Loaded" Margin="0,30,0,60" Background="#FFD0D0D0">
+                <ItemsControl ItemsSource="{Binding Food}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding CanvasX}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding CanvasY}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="10" Height="10" Fill="Blue"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Canvas>
+            <TextBlock TextWrapping="Wrap" FontSize="36" FontWeight="Bold" FontFamily="Cascadia Code" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Run Text="{Binding Score, Mode=OneWay, StringFormat='Score: {0}'}"/>
+            </TextBlock>
+        </StackPanel>
 
     </Grid>
 </Window>
