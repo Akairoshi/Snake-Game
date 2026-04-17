@@ -45,10 +45,11 @@ namespace Snake.Services
         {
             WriteToFile($"<-i->[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}\n");
         }
-        public void LogWarning(string message, Exception ex)
+        public void LogWarning(string message, Exception? ex = null)
         {
             WriteToFile($"<-?->[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}\n{ex}\n");
         }
+
         public void WriteToFile(string logText) 
         {
             try

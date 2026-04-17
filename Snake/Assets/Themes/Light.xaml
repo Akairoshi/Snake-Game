@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FF72E081"/>
+    <SolidColorBrush x:Key="GameCanvasBrush" Color="#FFBBF9C3"/>
+    <SolidColorBrush x:Key="GameCanvasBorder" Color="#FF29A012"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#0a0a0a"/>
+    <SolidColorBrush x:Key="SnakeBrush" Color="#FF0F8C20"/>
+    <SolidColorBrush x:Key="FoodBrush" Color="#f22c2c"/>
+</ResourceDictionary>

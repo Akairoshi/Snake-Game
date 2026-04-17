@@ -1,14 +1,106 @@
 ﻿<Window x:Class="Snake.Views.GameWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Snake.Views"
-        mc:Ignorable="d"
-        Title="GameWindow" Height="800" Width="800">
-    <Grid Background="#FF151515">
-        <Canvas Margin="66,32,66,96" Background="#FF2F2F2F"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,710,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" FontSize="36" Text="{Binding ScoreView, StringFormat='Score: {0}'}"/>
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:Snake.Views"
+                xmlns:conv="clr-namespace:Snake.Infrastructure.Converters"
+                xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+                mc:Ignorable="d"
+                Title="{Binding Title, Mode=OneWay}" MinHeight="780" MinWidth="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Width="1141" WindowStyle="None" Icon="pack://application:,,,/Assets/Images/Icon.png" >
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Background.png"/>
+    </Window.Background>
+    <Window.InputBindings>
+        <KeyBinding Key="W" Command="{Binding MoveCommand}" CommandParameter="Up"/>
+        <KeyBinding Key="A" Command="{Binding MoveCommand}" CommandParameter="Left"/>
+        <KeyBinding Key="S" Command="{Binding MoveCommand}" CommandParameter="Down"/>
+        <KeyBinding Key="D" Command="{Binding MoveCommand}" CommandParameter="Right"/>
 
+        <KeyBinding Key="Up" Command="{Binding MoveCommand}" CommandParameter="Up"/>
+        <KeyBinding Key="Left" Command="{Binding MoveCommand}" CommandParameter="Left"/>
+        <KeyBinding Key="Down" Command="{Binding MoveCommand}" CommandParameter="Down"/>
+        <KeyBinding Key="Right" Command="{Binding MoveCommand}" CommandParameter="Right"/>
+
+        <KeyBinding Key="Esc" Command="{Binding PauseCommand}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInRect}, Event=Visibility}" Visibility="{Binding BackgroundFade, Converter={StaticResource BoolToVisibility}}" Background="#7F000000" Grid.RowSpan="2">
+            <TextBlock Visibility="{Binding GameOverTextVisibility, Converter={StaticResource BoolToVisibility}}" TextWrapping="Wrap" Text="You are dead" FontFamily="Banschrift" Foreground="Red" FontSize="72" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderTransformOrigin="0.919,5.698" Margin="0,0,0,30"/>
+        </Border>
+        <StackPanel Margin="0,36,0,0" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" FontSize="25" Margin="0,30,0,10" Foreground="{DynamicResource ForegroundBrush}" HorizontalAlignment="Center"><Run Text="{Binding MoveDirection, Mode=OneWay}"/></TextBlock>
+            <Border Height="520" Width="520" Background="{DynamicResource GameCanvasBrush}" BorderBrush="{DynamicResource GameCanvasBorder}" BorderThickness="5,5,5,5" ClipToBounds="True">
+                <Canvas xf:Animations.Primary="{StaticResource FadeInRect}" x:Name="GameCanvas" Loaded="GameCanvas_Loaded" Width="500" Height="500" Margin="5,5,5,5" ClipToBounds="True">
+                    <ItemsControl  ItemsSource="{Binding Apples}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Setter Property="Canvas.Left" Value="{Binding CanvasX}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding CanvasY}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle xf:Animations.Primary="{StaticResource FadeInRect}" Width="{Binding CellSize}"
+                                            Height="{Binding CellSize}">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="/Assets/Images/Apple.png"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding Snake}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Setter Property="Canvas.Left" Value="{Binding CanvasX}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding CanvasY}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="{Binding CellSize}"
+                                            Height="{Binding CellSize}"
+                                            Fill="{DynamicResource SnakeBrush}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Canvas>
+            </Border>
+            <TextBlock x:Name="ScoreText" TextWrapping="Wrap" FontSize="36" FontWeight="Bold" FontFamily="Cascadia Code" Foreground="{DynamicResource ForegroundBrush}" HorizontalAlignment="Center" Margin="0,10,0,0" Text="{Binding Score, Mode=OneWay, StringFormat=Score: \{0\}}"/>
+        </StackPanel>
+        <Border xf:Animations.Primary="{StaticResource SlideFromUp}" BorderBrush="Black" Background="{DynamicResource GameCanvasBorder}" CornerRadius="0,0,15,15" HorizontalAlignment="Center" VerticalAlignment="Center" Height="47" Width="1141">
+            <DockPanel LastChildFill="False">
+                <Border Width="39" Height="40" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,0,15,15" Margin="10,0,0,0" Padding="2,2,2,2" VerticalAlignment="Top">
+                    <Image Source="/Assets/Images/AppleWithSnake.png"/>
+                </Border>
+                <TextBlock x:Name="Window_Title" TextWrapping="Wrap" Margin="20,10,0,10" FontFamily="Bahnschrift" FontSize="24" FontWeight="Bold"/>
+                <Button Style="{StaticResource CloseButton}" DockPanel.Dock="Right"
+                    Height="40" Width="50"
+                    Margin="0,0,5,0"
+                    Command="{Binding CloseCommand}"
+                    Cursor="Hand" Padding="0,0,0,0" BorderThickness="0,0,0,0" VerticalAlignment="Top">
+                    <TextBlock FontSize="24" FontFamily="Bahnschrift" FontWeight="Bold" Text="X"
+                        Foreground="{DynamicResource ForegroundBrush}"/>
+                </Button>
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

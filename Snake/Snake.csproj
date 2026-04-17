@@ -9,4 +9,45 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\Images\Apple.png" />
+    <None Remove="Assets\Images\AppleWithSnake.png" />
+    <None Remove="Assets\Images\Background.png" />
+    <None Remove="Assets\Images\Icon.png" />
+    <None Remove="Assets\Sounds\1.wav" />
+    <None Remove="Assets\Sounds\2.wav" />
+    <None Remove="Assets\Sounds\3.wav" />
+    <None Remove="Assets\Sounds\death.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Assets\Themes\Dark.xaml" />
+    <Page Remove="Assets\Themes\Light.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\Apple.png" />
+    <Resource Include="Assets\Images\AppleWithSnake.png" />
+    <Resource Include="Assets\Images\Background.png" />
+    <Resource Include="Assets\Images\Icon.png" />
+    <Resource Include="Assets\Sounds\1.wav" />
+    <Resource Include="Assets\Sounds\2.wav" />
+    <Resource Include="Assets\Sounds\3.wav" />
+    <Resource Include="Assets\Sounds\death.wav" />
+    <Resource Include="Assets\Themes\Dark.xaml" />
+    <Resource Include="Assets\Themes\Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+  </ItemGroup>
+
 </Project>
