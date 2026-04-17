@@ -11,6 +11,7 @@ namespace Snake
     public partial class App : Application
     {
         private readonly ILogService _logService = new LogService();
+        private readonly IRepositoryService _repositoryService = new RepositoryService();
 
         public App()
         {
@@ -25,9 +26,8 @@ namespace Snake
             base.OnStartup(e);
 
             IDialogService dialogService = new DialogService(_logService);
-
-            var vm = new GameViewModel(dialogService, _logService);
-            var window = new GameWindow(vm);
+            var vm = new LobbyViewModel(_repositoryService, _logService, dialogService);
+            var window = new LobbyView(vm);
             window.Show();
         }
 

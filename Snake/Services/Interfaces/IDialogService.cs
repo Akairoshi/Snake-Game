@@ -4,8 +4,6 @@ namespace Snake.Services.Interfaces
 {
     public interface IDialogService
     {
-        bool TryPickOpenFile(out string filePath);
-        bool TryPickSaveFile(out string filePath);
         void Show<TWindow>() where TWindow : Window, new();
         void ShowDialog<TWindow>() where TWindow : Window, new();
         void Show<TWindow, TViewModel>(TViewModel viewModel)

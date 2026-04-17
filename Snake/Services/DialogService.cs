@@ -13,43 +13,6 @@ namespace Snake.Services
 
             _logService.LogInfo("DialogService initialized");
         }
-        public bool TryPickOpenFile(out string filePath)
-        {
-            _logService.LogInfo("Opening file dialog");
-            var dialog = new OpenFileDialog
-            {
-                Filter = "Text files (*.txt;*.md)|*.txt;*.md|C# files (*.cs)|*.cs|Json files (*.json)|*.json|All files (*.*)|*.*",
-                FileName = "Untitled"
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                filePath = dialog.FileName;
-                return true;
-            }
-
-            filePath = string.Empty;
-            return false;
-        }
-
-        public bool TryPickSaveFile(out string filePath)
-        {
-            _logService.LogInfo("Opening save file dialog");
-            var dialog = new SaveFileDialog
-            {
-                Filter = "Text files (*.txt)|*.txt|MarkDown (*.md)|*.md|C# files (*.cs)|*.cs|Json files (*.json)|*.json|All files (*.*)|*.*",
-                FileName = "Untitled"
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                filePath = dialog.FileName;
-                return true;
-            }
-
-            filePath = string.Empty;
-            return false;
-        }
         public void Show<TWindow>() where TWindow : Window, new()
         {
             var window = new TWindow();

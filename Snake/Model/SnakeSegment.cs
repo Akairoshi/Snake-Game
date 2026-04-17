@@ -2,19 +2,15 @@
 
 namespace Snake.Model
 {
-    public class SnakeSegment : ObservableObject
+    public class Segment
     {
         public int GridX { get; }
         public int GridY { get; }
-        public double CanvasX { get; }
-        public double CanvasY { get; }
 
-        public SnakeSegment(int gridX, int gridY, double cellSize) 
+        public Segment(int gridX, int gridY) 
         {
             GridX = gridX;
             GridY = gridY;
-            CanvasX = gridX * cellSize;
-            CanvasY = gridY * cellSize;
         }
     }
 }

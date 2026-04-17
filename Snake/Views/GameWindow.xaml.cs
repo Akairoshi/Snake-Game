@@ -1,34 +1,37 @@
 ﻿using Snake.ViewModels;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Snake.Views
 {
     public partial class GameWindow : Window
     {
-        private readonly GameViewModel _vm;
-        public GameWindow(GameViewModel vm)
+        private GameViewModel _vm;
+        public GameWindow()
         {
             InitializeComponent();
-            _vm = vm;
-            DataContext = _vm;
         }
         public void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            _vm.SetGameCanvasSize(GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            _vm = DataContext as GameViewModel;
+            _vm?.RequestClose += () => Close();
+            _vm?.ScoreChanged += OnScoreChanged;
+            _vm?.SetGameCanvasSize(GameCanvas.ActualWidth, GameCanvas.ActualHeight);
+            Window_Title.Text = this.Title;
         }
-        protected override void OnKeyDown(KeyEventArgs e)
+        private void OnScoreChanged()
         {
-            base.OnKeyDown(e);
-            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
-                _vm.SetBoost(true);
+            var transform = new TranslateTransform();
+            ScoreText.RenderTransform = transform;
+            var anim = new DoubleAnimation(0, -15, TimeSpan.FromMilliseconds(300))
+            {
+                AutoReverse = true,
+                EasingFunction = new CubicEase()
+            };
+            transform.BeginAnimation(TranslateTransform.YProperty, anim);
         }
 
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            base.OnKeyUp(e);
-            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
-                _vm.SetBoost(false);
-        }
     }
 }
